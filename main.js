@@ -85,20 +85,6 @@ class Field {
     }
   }
 
-  gameLoop() {
-    while(this.status === 'p') {
-        this.print();
-        let moveChoice = prompt('Choose a direction to move: ');
-        this.move(moveChoice);
-    }
-    this.print();
-    if (this.status === 'w') {
-        console.log('Congratulations on finding your hat! You win!');
-    } else {
-        console.log('You fell... Game over!');
-    }
-  }
-
   print() {
     console.log(`Status: ${this.status}`);
     this.field.forEach(row => {
@@ -107,6 +93,36 @@ class Field {
   }
 }
 
-const myField = new Field(3, 50);
+class Game {
+    constructor() {
+        this.playing = true;
+    }
 
-myField.gameLoop();
+    gameLoop() {
+        // Run app while user has not quit
+        while(this.playing) {
+            // Game round
+            const fieldSize = prompt('Enter size of field: ');
+            const holePercentage = prompt('Enter percentage of holes: ');
+            const field = new Field(fieldSize, holePercentage);
+            while(field.status === 'p') {
+                field.print();
+                let moveChoice = prompt('Choose a direction to move: ');
+                field.move(moveChoice);
+            }
+            field.print();
+            if (field.status === 'w') {
+                console.log('Congratulations on finding your hat! You win!');
+            } else {
+                console.log('You fell... Game over!');
+            }
+            const newGame = prompt('Would you like to play again? (yes/no): ');
+            if(newGame.toLowerCase() === 'no') {
+                this.playing = false;
+            }
+        }
+    }
+}
+
+const game = new Game();
+game.gameLoop();
