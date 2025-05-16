@@ -6,10 +6,28 @@ const fieldCharacter = '░';
 const pathCharacter = '*';
 
 class Field {
-  constructor(field) {
-    this.field = field;
+  constructor(fieldSize, holePercentage = 10) {
+    this.field = [];
+    // Populate field
+    for(let i = 0; i < fieldSize; i++) {
+        const newRow = [];
+        for(let j = 0; j < fieldSize; j++) {
+            newRow.push(this.randomizeTerrain(holePercentage));
+        }
+        this.field.push(newRow);
+    }
+    // Set hat location
+    this.field[fieldSize - 1][fieldSize - 1] = '^';
+    // Set player location
     this.current = [0,0];
+    this.togglePath();
+    // Initialize game status to pending
     this.status = 'p';
+  }
+
+  randomizeTerrain(holePercentage) {
+    const random = Math.floor((Math.random() * 99) + 1);
+    return random < holePercentage ? 'O' : '░';
   }
 
   getCurrentLand() {
@@ -89,10 +107,6 @@ class Field {
   }
 }
 
-const myField = new Field([
-    ['*', '░', '░'],
-    ['░', 'O', '░'],
-    ['░', '░', '^']
-]);
+const myField = new Field(3, 50);
 
 myField.gameLoop();
