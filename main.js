@@ -73,6 +73,12 @@ class Field {
         let moveChoice = prompt('Choose a direction to move: ');
         this.move(moveChoice);
     }
+    this.print();
+    if (this.status === 'w') {
+        console.log('Congratulations on finding your hat! You win!');
+    } else {
+        console.log('You fell... Game over!');
+    }
   }
 
   print() {
