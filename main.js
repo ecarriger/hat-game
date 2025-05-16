@@ -1,4 +1,4 @@
-//const prompt = require('prompt-sync')({sigint: true});
+const prompt = require('prompt-sync')({sigint: true});
 
 const hat = '^';
 const hole = 'O';
@@ -65,7 +65,14 @@ class Field {
             this.status = 'l'
             break;        
     }
+  }
 
+  gameLoop() {
+    while(this.status === 'p') {
+        this.print();
+        let moveChoice = prompt('Choose a direction to move: ');
+        this.move(moveChoice);
+    }
   }
 
   print() {
@@ -82,12 +89,4 @@ const myField = new Field([
     ['░', '░', '^']
 ]);
 
-myField.print();
-myField.move('down');
-myField.print();
-myField.move('down');
-myField.print();
-myField.move('right');
-myField.print();
-myField.move('right');
-myField.print();
+myField.gameLoop();
